@@ -24,10 +24,6 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, CalendarFragment.newInstance())
             .commit()
-
-        getDatas()
-
-
     }
 
     private fun getShortDayNames(): ArrayList<String> {
@@ -45,12 +41,5 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.container, fragment)
             .addToBackStack(null)
             .commit()
-    }
-
-    private fun getDatas() {
-        val calendar = Calendar.getInstance()
-        Log.e(calendar.get(Calendar.DAY_OF_WEEK).toString())
-        Log.e(calendar.getActualMaximum(Calendar.DAY_OF_MONTH).toString())
-
     }
 }

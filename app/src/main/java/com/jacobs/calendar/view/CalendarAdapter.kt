@@ -1,9 +1,12 @@
 package com.jacobs.calendar.view
 
+import android.icu.util.Calendar
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.jacobs.calendar.Log
 import com.jacobs.calendar.R
 import com.jacobs.calendar.databinding.ItemCalendarBinding
 import com.jacobs.calendar.model.CalendarModel
@@ -12,11 +15,19 @@ class CalendarAdapter(var modelList: ArrayList<CalendarModel>) : RecyclerView.Ad
 
     private var mInflater: LayoutInflater? = null
 
+    interface OnItemClickListener {
+        fun onClick(view: View, position: Int, model: CalendarModel)
+    }
+
+    private var onItemClickListener: OnItemClickListener? = null
+
+    fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
+        this@CalendarAdapter.onItemClickListener = onItemClickListener
+    }
+
     class ViewHolder(var binding: ItemCalendarBinding) : RecyclerView.ViewHolder(binding.root) {
 
     }
-
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         if (mInflater == null) {
@@ -30,6 +41,9 @@ class CalendarAdapter(var modelList: ArrayList<CalendarModel>) : RecyclerView.Ad
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.apply {
             model = modelList[position]
+            root.setOnClickListener {
+                onItemClickListener?.onClick(it, position, modelList[position])
+            }
         }
     }
 
