@@ -18,6 +18,14 @@ class CalendarController {
             }
             return ret
         }
+
+        @JvmStatic
+        fun getSimpleDate(calendar: Calendar): String {
+            return String.format("%s, %d %s",
+                calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault()),
+                calendar.get(Calendar.DAY_OF_MONTH),
+                calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.getDefault()))
+        }
     }
 
     val calendar: Calendar = Calendar.getInstance()

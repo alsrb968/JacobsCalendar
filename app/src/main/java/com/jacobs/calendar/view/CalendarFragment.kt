@@ -13,8 +13,8 @@ import com.jacobs.calendar.MainActivity
 import com.jacobs.calendar.R
 import com.jacobs.calendar.databinding.FragmentCalendarBinding
 import com.jacobs.calendar.model.CalendarModel
+import com.jacobs.calendar.popup.AddEventPopup
 import java.util.*
-import kotlin.collections.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -64,6 +64,8 @@ class CalendarFragment : Fragment() {
                 adapter.setOnItemClickListener(object : CalendarAdapter.OnItemClickListener {
                     override fun onClick(view: View, position: Int, model: CalendarModel) {
                         Log.i("position: $position, model: $model")
+                        val addEventPopup = AddEventPopup(this@CalendarFragment.context, model)
+                        addEventPopup.show()
                     }
                 })
                 recyclerView.adapter = adapter

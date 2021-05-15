@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">JacobsCalendar</string>
+
+    <string name="confirm">Confirm</string>
 </resources>

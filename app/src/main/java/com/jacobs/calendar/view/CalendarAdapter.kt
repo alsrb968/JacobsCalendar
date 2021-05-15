@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.jacobs.calendar.Log
 import com.jacobs.calendar.R
 import com.jacobs.calendar.databinding.ItemCalendarBinding
 import com.jacobs.calendar.model.CalendarModel
@@ -26,9 +25,7 @@ class CalendarAdapter(var context: Context, var modelList: ArrayList<CalendarMod
         this@CalendarAdapter.onItemClickListener = onItemClickListener
     }
 
-    class ViewHolder(var binding: ItemCalendarBinding) : RecyclerView.ViewHolder(binding.root) {
-
-    }
+    class ViewHolder(var binding: ItemCalendarBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         if (mInflater == null) {
@@ -44,7 +41,7 @@ class CalendarAdapter(var context: Context, var modelList: ArrayList<CalendarMod
             model = modelList[position]
             if (modelList[position].calendar.get(Calendar.MONTH) != Calendar.getInstance().get(Calendar.MONTH)) {
                 root.isEnabled = false
-                root.alpha = .5f
+                root.alpha = .3f
             }
             if (modelList[position].calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
                 dayTextView.setTextColor(context.getColor(R.color.red))
