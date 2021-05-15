@@ -11,14 +11,12 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mBinding: ActivityMainBinding
-    private val mCalendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView<ActivityMainBinding?>(this, R.layout.activity_main)
             .apply {
-                calendar = this@MainActivity.mCalendar
-                dayNames = this@MainActivity.getShortDayNames()
+                dayNames = CalendarController.getShortDayNames()
             }
 
         supportFragmentManager.beginTransaction()
@@ -26,20 +24,14 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-    private fun getShortDayNames(): ArrayList<String> {
-        val ret = ArrayList<String>()
-        val calendar = Calendar.getInstance();
-        for (day in Calendar.SUNDAY..Calendar.SATURDAY) {
-            calendar.set(Calendar.DAY_OF_WEEK, day)
-            ret.add(calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.getDefault())!!)
-        }
-        return ret
-    }
-
     fun switchFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, fragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    fun refreshCurrDate(calendar: Calendar) {
+        mBinding.calendar = calendar
     }
 }

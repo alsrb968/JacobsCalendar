@@ -1,6 +1,10 @@
 package com.jacobs.calendar.model
 
+import java.util.*
+import kotlin.collections.ArrayList
+
 data class CalendarModel(
-    var month: Int,
-    var dayOfWeek: Int) {
+    var calendar: Calendar) {
+
+    var events = ArrayList<String>()
 }

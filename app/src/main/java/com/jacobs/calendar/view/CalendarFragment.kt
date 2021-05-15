@@ -7,11 +7,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.jacobs.calendar.CalendarController
 import com.jacobs.calendar.Log
+import com.jacobs.calendar.MainActivity
 import com.jacobs.calendar.R
 import com.jacobs.calendar.databinding.FragmentCalendarBinding
 import com.jacobs.calendar.model.CalendarModel
 import java.util.*
+import kotlin.collections.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,6 +28,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class CalendarFragment : Fragment() {
     private lateinit var mBinding: FragmentCalendarBinding
+    private lateinit var mCalendarController: CalendarController
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -36,6 +40,10 @@ class CalendarFragment : Fragment() {
 //            param1 = it.getString(ARG_PARAM1)
 //            param2 = it.getString(ARG_PARAM2)
 //        }
+        mCalendarController = CalendarController()
+        mCalendarController.initBaseCalendar {
+            (activity as MainActivity).refreshCurrDate(it)
+        }
     }
 
     override fun onCreateView(
@@ -47,8 +55,12 @@ class CalendarFragment : Fragment() {
             container, false
         ).also {
             mBinding = it.apply {
-                recyclerView.layoutManager = GridLayoutManager(this@CalendarFragment.context, 7)
-                val adapter = CalendarAdapter(getModelList())
+                recyclerView.layoutManager = GridLayoutManager(this@CalendarFragment.context, CalendarController.DAYS_OF_WEEK)
+                val adapter = CalendarAdapter(this@CalendarFragment.context!!, mCalendarController.data)
+                for (i in mCalendarController.data) {
+                    Log.i("${i.calendar.get(Calendar.DAY_OF_MONTH)}")
+                }
+                Log.i("${mCalendarController.data.size}")
                 adapter.setOnItemClickListener(object : CalendarAdapter.OnItemClickListener {
                     override fun onClick(view: View, position: Int, model: CalendarModel) {
                         Log.i("position: $position, model: $model")
@@ -59,32 +71,33 @@ class CalendarFragment : Fragment() {
             }
         }.root
 
-    private fun getModelList(): ArrayList<CalendarModel> {
-        val ret = ArrayList<CalendarModel>()
 
-        val calendar = Calendar.getInstance()
-        val currMonth = calendar.get(Calendar.MONTH) + 1
-
-        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1
-        Log.i("$dayOfWeek")
-        val lastMonthTotalDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
-        for (i in (lastMonthTotalDay - dayOfWeek) until lastMonthTotalDay) {
-            ret.add(CalendarModel(currMonth - 1, i))
-        }
-
-        val currMonthTotalDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
-        for (i in 1..currMonthTotalDay) {
-            ret.add(CalendarModel(currMonth, i));
-        }
-
-        val remain = 42 - ret.size
-        for (i in 1..remain) {
-            ret.add(CalendarModel(currMonth + 1, i));
-        }
-
-        Log.i("${ret.size}")
-        return ret
-    }
+//    private fun getModelList(): ArrayList<CalendarModel> {
+//        val ret = ArrayList<CalendarModel>()
+//
+//        val calendar = Calendar.getInstance()
+//        val currMonth = calendar.get(Calendar.MONTH) + 1
+//
+//        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1
+//        Log.i("$dayOfWeek")
+//        val lastMonthTotalDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+//        for (i in (lastMonthTotalDay - dayOfWeek) until lastMonthTotalDay) {
+//            ret.add(CalendarModel(currMonth - 1, i))
+//        }
+//
+//        val currMonthTotalDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+//        for (i in 1..currMonthTotalDay) {
+//            ret.add(CalendarModel(currMonth, i));
+//        }
+//
+//        val remain = 42 - ret.size
+//        for (i in 1..remain) {
+//            ret.add(CalendarModel(currMonth + 1, i));
+//        }
+//
+//        Log.i("${ret.size}")
+//        return ret
+//    }
 
     companion object {
         /**

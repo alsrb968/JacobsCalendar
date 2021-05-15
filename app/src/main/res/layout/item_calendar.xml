@@ -3,6 +3,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <import type="java.util.Calendar"/>
+
         <variable name="model" type="com.jacobs.calendar.model.CalendarModel"/>
     </data>
 
@@ -12,10 +14,12 @@
             android:background="?attr/selectableItemBackground">
 
         <TextView
+                android:id="@+id/dayTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="@{String.valueOf(model.dayOfWeek)}"
+                android:text="@{String.valueOf(model.calendar.get(Calendar.DAY_OF_MONTH))}"
+                android:textColor="?attr/colorOnPrimary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
 

@@ -1,5 +1,6 @@
 package com.jacobs.calendar.view
 
+import android.content.Context
 import android.icu.util.Calendar
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,7 @@ import com.jacobs.calendar.R
 import com.jacobs.calendar.databinding.ItemCalendarBinding
 import com.jacobs.calendar.model.CalendarModel
 
-class CalendarAdapter(var modelList: ArrayList<CalendarModel>) : RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
+class CalendarAdapter(var context: Context, var modelList: ArrayList<CalendarModel>) : RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
 
     private var mInflater: LayoutInflater? = null
 
@@ -41,6 +42,15 @@ class CalendarAdapter(var modelList: ArrayList<CalendarModel>) : RecyclerView.Ad
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.apply {
             model = modelList[position]
+            if (modelList[position].calendar.get(Calendar.MONTH) != Calendar.getInstance().get(Calendar.MONTH)) {
+                root.isEnabled = false
+                root.alpha = .5f
+            }
+            if (modelList[position].calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+                dayTextView.setTextColor(context.getColor(R.color.red))
+            } else if (modelList[position].calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+                dayTextView.setTextColor(context.getColor(R.color.blue))
+            }
             root.setOnClickListener {
                 onItemClickListener?.onClick(it, position, modelList[position])
             }
