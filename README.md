@@ -1,14 +1,16 @@
 JacobsCalendar
 ==============
 
-#구현화면
 
-![calendar](/pic/img1.jpg)
-![dialog](/pic/img2.jpg)
-![todo](/pic/img3.jpg)
+# 구현화면
 
-#ToDo
-##필수기능
+<img src="https://github.com/alsrb968/JacobsCalendar/blob/main/pic/img1.png?raw=true" width="30%" height="30%" title="캘린더" alt="캘린더"></img>
+<img src="https://github.com/alsrb968/JacobsCalendar/blob/main/pic/img2.png?raw=true" width="30%" height="30%" title="입력" alt="입력"></img>
+<img src="https://github.com/alsrb968/JacobsCalendar/blob/main/pic/img3.png?raw=true" width="30%" height="30%" title="일정" alt="일정"></img>
+
+# ToDo
+
+## 필수기능
 
 - [x]  캘린더 최상단에는 연도 및 월을 표시합니다.
 - [x]  캘린더에는 현재 선택된 달의 날짜를 7 x n(week) 형태의 격자로 표시합니다.
@@ -29,7 +31,7 @@ JacobsCalendar
 - [x]  캘린더 최상단에 이전, 다음달로 이동할 수 있는 버튼을 구현해봅니다.
 - [ ]  캘린더에서 월별 이동을 ViewPager를 활용하여 구현해봅니다.
 
-#Known Issue
+# Known Issue
 
 - month 변경 시 일정 초기화되는 현상
 - month 변경 시 캘린더 깜빡이는 현상
