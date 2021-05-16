@@ -13,11 +13,14 @@
             tools:context=".view.CalendarFragment">
 
         <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" android:id="@+id/recyclerView"
+                android:layout_height="match_parent"
                 android:overScrollMode="never"
                 android:scrollbars="none"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"/>
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="7"
+                tools:listitem="@layout/item_calendar"/>
 
     </FrameLayout>
 </layout>

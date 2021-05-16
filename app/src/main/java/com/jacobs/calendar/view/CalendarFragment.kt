@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.jacobs.calendar.CalendarController
-import com.jacobs.calendar.Log
-import com.jacobs.calendar.MainActivity
-import com.jacobs.calendar.R
+import com.jacobs.calendar.*
 import com.jacobs.calendar.databinding.FragmentCalendarBinding
 import com.jacobs.calendar.model.CalendarModel
+import com.jacobs.calendar.model.CalendarViewModel
 import com.jacobs.calendar.popup.AddEventPopup
 import java.util.*
 
@@ -28,7 +28,9 @@ private const val ARG_PARAM2 = "param2"
  */
 class CalendarFragment : Fragment() {
     private lateinit var mBinding: FragmentCalendarBinding
-    private lateinit var mCalendarController: CalendarController
+    private lateinit var mCalendarAdapter: CalendarAdapter
+
+    private val mViewModel: CalendarViewModel by activityViewModels()
 
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -40,10 +42,7 @@ class CalendarFragment : Fragment() {
 //            param1 = it.getString(ARG_PARAM1)
 //            param2 = it.getString(ARG_PARAM2)
 //        }
-        mCalendarController = CalendarController()
-        mCalendarController.initBaseCalendar {
-            (activity as MainActivity).refreshCurrDate(it)
-        }
+
     }
 
     override fun onCreateView(
@@ -53,57 +52,38 @@ class CalendarFragment : Fragment() {
         DataBindingUtil.inflate<FragmentCalendarBinding>(
             inflater, R.layout.fragment_calendar,
             container, false
-        ).also {
+        ).also { it ->
             mBinding = it.apply {
-                recyclerView.layoutManager = GridLayoutManager(this@CalendarFragment.context, CalendarController.DAYS_OF_WEEK)
-                val adapter = CalendarAdapter(this@CalendarFragment.context!!, mCalendarController.data)
-                adapter.setOnItemClickListener(object : CalendarAdapter.OnItemClickListener {
-                    override fun onClick(view: View, position: Int, model: CalendarModel) {
-                        Log.i("position: $position, model: $model")
-                        AddEventPopup.Builder(this@CalendarFragment.context)
-                            .model(model)
-                            .listener(object : AddEventPopup.OnTodoEventListener {
-                                override fun onTodoEvent(event: String) {
-                                    Log.d("event: $event")
-                                    model.events.add(event)
-                                    Log.d("model.event.size: ${model.events.size}")
-                                }
-                            })
-                            .show()
-                    }
-                })
-                recyclerView.adapter = adapter
-
+                recyclerView.layoutManager =
+                    GridLayoutManager(this@CalendarFragment.context, CalendarController.DAYS_OF_WEEK)
             }
+
+            mViewModel.model.observe(requireActivity(), Observer { arrayCalendarModel ->
+                for (i in arrayCalendarModel!!) {
+//                    Log.w(i.events.toString())
+                    mCalendarAdapter = CalendarAdapter(requireContext(), mViewModel)
+                    mCalendarAdapter.setOnItemClickListener(mOnItemClickListener)
+                    mBinding.recyclerView.adapter = mCalendarAdapter
+                }
+            })
         }.root
 
-
-//    private fun getModelList(): ArrayList<CalendarModel> {
-//        val ret = ArrayList<CalendarModel>()
-//
-//        val calendar = Calendar.getInstance()
-//        val currMonth = calendar.get(Calendar.MONTH) + 1
-//
-//        val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1
-//        Log.i("$dayOfWeek")
-//        val lastMonthTotalDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
-//        for (i in (lastMonthTotalDay - dayOfWeek) until lastMonthTotalDay) {
-//            ret.add(CalendarModel(currMonth - 1, i))
-//        }
-//
-//        val currMonthTotalDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
-//        for (i in 1..currMonthTotalDay) {
-//            ret.add(CalendarModel(currMonth, i));
-//        }
-//
-//        val remain = 42 - ret.size
-//        for (i in 1..remain) {
-//            ret.add(CalendarModel(currMonth + 1, i));
-//        }
-//
-//        Log.i("${ret.size}")
-//        return ret
-//    }
+    private var mOnItemClickListener = object : CalendarAdapter.OnItemClickListener {
+        override fun onClick(view: View, position: Int, model: CalendarModel) {
+            Log.i("position: $position, model: $model")
+            AddEventPopup.Builder(this@CalendarFragment.context)
+                .model(model)
+                .listener(object : AddEventPopup.OnTodoEventListener {
+                    override fun onTodoEvent(event: String) {
+                        model.events.add(event)
+                        Log.d("model.event.size: ${model.events.size}")
+                        Log.d(mViewModel.model.value!![position].events.toString())
+                        mViewModel.model.notifyChange()
+                    }
+                })
+                .show()
+        }
+    }
 
     companion object {
         /**

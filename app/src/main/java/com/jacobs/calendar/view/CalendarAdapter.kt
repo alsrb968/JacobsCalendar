@@ -7,12 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.jacobs.calendar.model.CalendarViewModel
 import com.jacobs.calendar.R
 import com.jacobs.calendar.databinding.ItemCalendarBinding
 import com.jacobs.calendar.model.CalendarModel
 
-class CalendarAdapter(var context: Context, var modelList: ArrayList<CalendarModel>) : RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
-
+class CalendarAdapter(var context: Context, var viewModel: CalendarViewModel) :
+    RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
     private var mInflater: LayoutInflater? = null
 
     interface OnItemClickListener {
@@ -25,19 +26,24 @@ class CalendarAdapter(var context: Context, var modelList: ArrayList<CalendarMod
         this@CalendarAdapter.onItemClickListener = onItemClickListener
     }
 
-    class ViewHolder(var binding: ItemCalendarBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(var binding: ItemCalendarBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         if (mInflater == null) {
             mInflater = LayoutInflater.from(parent.context)
         }
 
-        val binding = DataBindingUtil.inflate<ItemCalendarBinding>(mInflater!!, R.layout.item_calendar, parent, false)
+        val binding = DataBindingUtil.inflate<ItemCalendarBinding>(
+            mInflater!!, R.layout.item_calendar, parent, false
+        )
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.apply {
+            val modelList = viewModel.model.value!!
             model = modelList[position]
             if (modelList[position].calendar.get(Calendar.MONTH) != Calendar.getInstance().get(Calendar.MONTH)) {
                 root.isEnabled = false
@@ -51,10 +57,13 @@ class CalendarAdapter(var context: Context, var modelList: ArrayList<CalendarMod
             root.setOnClickListener {
                 onItemClickListener?.onClick(it, position, modelList[position])
             }
+
+            val adapter = TodoAdapter(context, modelList[position].events)
+            recyclerView.adapter = adapter
         }
     }
 
     override fun getItemCount(): Int {
-        return modelList.size
+        return viewModel.model.value!!.size
     }
 }

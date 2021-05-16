@@ -9,6 +9,7 @@
 
         <variable name="calendar" type="java.util.Calendar"/>
         <variable name="dayNames" type="ArrayList&lt;String&gt;"/>
+        <variable name="listener" type="com.jacobs.calendar.MainActivity.Listener"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +28,7 @@
                 app:layout_constraintTop_toTopOf="parent" android:id="@+id/headLinearLayout">
 
             <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:text="@{String.valueOf(calendar.get(Calendar.MONTH) + 1)}"
@@ -42,6 +43,40 @@
                     android:text="@{String.valueOf(calendar.get(Calendar.YEAR))}"
                     android:textSize="18sp"
                     android:textColor="?attr/colorOnPrimary"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <Button
+                        android:id="@+id/prevButton"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="10dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:text="@string/prev"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:textSize="25sp"
+                        android:onClick="@{() -> listener.onPrevMonth()}"
+                        app:layout_constraintEnd_toStartOf="@id/nextButton"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <Button
+                        android:id="@+id/nextButton"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="10dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:text="@string/next"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:textSize="25sp"
+                        android:onClick="@{() -> listener.onNextMonth()}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
