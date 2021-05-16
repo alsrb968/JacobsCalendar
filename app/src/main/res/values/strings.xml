@@ -4,4 +4,5 @@
     <string name="confirm">Confirm</string>
     <string name="prev"><![CDATA[<]]></string>
     <string name="next"><![CDATA[>]]></string>
+    <string name="todo_hint">Enter a schedule.</string>
 </resources>
