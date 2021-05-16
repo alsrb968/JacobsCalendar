@@ -33,5 +33,6 @@ JacobsCalendar
 
 # Known Issue
 
-- month 변경 시 일정 초기화되는 현상
-- month 변경 시 캘린더 깜빡이는 현상
+- month 변경 시 일정 초기화되는 문제
+- month 변경 시 캘린더 깜빡이는 문제
+- 일정 추가 시 좌측 정렬 되는 문제
