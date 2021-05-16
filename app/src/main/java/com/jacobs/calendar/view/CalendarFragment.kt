@@ -57,15 +57,19 @@ class CalendarFragment : Fragment() {
             mBinding = it.apply {
                 recyclerView.layoutManager = GridLayoutManager(this@CalendarFragment.context, CalendarController.DAYS_OF_WEEK)
                 val adapter = CalendarAdapter(this@CalendarFragment.context!!, mCalendarController.data)
-                for (i in mCalendarController.data) {
-                    Log.i("${i.calendar.get(Calendar.DAY_OF_MONTH)}")
-                }
-                Log.i("${mCalendarController.data.size}")
                 adapter.setOnItemClickListener(object : CalendarAdapter.OnItemClickListener {
                     override fun onClick(view: View, position: Int, model: CalendarModel) {
                         Log.i("position: $position, model: $model")
-                        val addEventPopup = AddEventPopup(this@CalendarFragment.context, model)
-                        addEventPopup.show()
+                        AddEventPopup.Builder(this@CalendarFragment.context)
+                            .model(model)
+                            .listener(object : AddEventPopup.OnTodoEventListener {
+                                override fun onTodoEvent(event: String) {
+                                    Log.d("event: $event")
+                                    model.events.add(event)
+                                    Log.d("model.event.size: ${model.events.size}")
+                                }
+                            })
+                            .show()
                     }
                 })
                 recyclerView.adapter = adapter

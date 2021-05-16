@@ -42,9 +42,6 @@ class CalendarController {
 
     fun initBaseCalendar(refreshCallback: (Calendar) -> Unit) {
         makeMonthDate(refreshCallback)
-        for (i in data) {
-            Log.e("${i.calendar.get(Calendar.DAY_OF_MONTH)}")
-        }
     }
 
     fun changeToPrevMonth(refreshCallback: (Calendar) -> Unit) {

@@ -8,8 +8,8 @@
         <import type="com.jacobs.calendar.CalendarController"/>
 
         <variable name="model" type="com.jacobs.calendar.model.CalendarModel"/>
-        <variable name="event" type="String"/>
-        <variable name="popup" type="com.jacobs.calendar.popup.AddEventPopup"/>
+        <variable name="todoEvent" type="String"/>
+        <variable name="listener" type="com.jacobs.calendar.popup.AddEventPopup.Listener"/>
     </data>
 
     <FrameLayout
@@ -38,7 +38,7 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="@={event}"
+                    android:text="@={todoEvent}"
                     android:textSize="15sp"
                     android:inputType="text"
                     android:imeOptions="actionDone"
@@ -55,10 +55,11 @@
                     android:textSize="15sp"
                     android:textColor="@color/white"
                     android:textAllCaps="false"
-                    android:onClick="@{() -> popup.onConfirm(event)}"
+                    android:onClick="@{() -> listener.onConfirm(todoEvent)}"
                     app:layout_constraintTop_toBottomOf="@id/editText"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
