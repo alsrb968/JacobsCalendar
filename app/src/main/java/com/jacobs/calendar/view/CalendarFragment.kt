@@ -1,13 +1,16 @@
 package com.jacobs.calendar.view
 
+import android.content.res.Resources
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import com.jacobs.calendar.*
 import com.jacobs.calendar.databinding.FragmentCalendarBinding
@@ -56,6 +59,7 @@ class CalendarFragment : Fragment() {
             mBinding = it.apply {
                 recyclerView.layoutManager =
                     GridLayoutManager(this@CalendarFragment.context, CalendarController.DAYS_OF_WEEK)
+                recyclerView.addItemDecoration(DividerItemDecoration(this@CalendarFragment.context, DividerItemDecoration.VERTICAL))
             }
 
             mViewModel.model.observe(requireActivity(), Observer { arrayCalendarModel ->
