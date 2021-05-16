@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.jacobs.calendar.MainActivity
 import com.jacobs.calendar.model.CalendarViewModel
 import com.jacobs.calendar.R
 import com.jacobs.calendar.databinding.ItemCalendarBinding
 import com.jacobs.calendar.model.CalendarModel
+import kotlin.math.acos
 
 class CalendarAdapter(var context: Context, var viewModel: CalendarViewModel) :
     RecyclerView.Adapter<CalendarAdapter.ViewHolder>() {
@@ -45,7 +47,7 @@ class CalendarAdapter(var context: Context, var viewModel: CalendarViewModel) :
         holder.binding.apply {
             val modelList = viewModel.model.value!!
             model = modelList[position]
-            if (modelList[position].calendar.get(Calendar.MONTH) != Calendar.getInstance().get(Calendar.MONTH)) {
+            if (modelList[position].calendar.get(Calendar.MONTH) != (context as MainActivity).getFocusedCalendar().get(Calendar.MONTH)) {
                 root.isEnabled = false
                 root.alpha = .3f
             }

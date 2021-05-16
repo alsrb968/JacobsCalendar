@@ -70,7 +70,6 @@ class CalendarFragment : Fragment() {
 
     private var mOnItemClickListener = object : CalendarAdapter.OnItemClickListener {
         override fun onClick(view: View, position: Int, model: CalendarModel) {
-            Log.i("position: $position, model: $model")
             AddEventPopup.Builder(this@CalendarFragment.context)
                 .model(model)
                 .listener(object : AddEventPopup.OnTodoEventListener {

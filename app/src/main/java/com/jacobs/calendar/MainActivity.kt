@@ -55,4 +55,8 @@ class MainActivity : AppCompatActivity() {
 //            Log.i("day: ${i.calendar.get(Calendar.DAY_OF_MONTH)}")
 //        }
     }
+
+    fun getFocusedCalendar(): Calendar {
+        return mBinding.calendar!!.clone() as Calendar
+    }
 }
